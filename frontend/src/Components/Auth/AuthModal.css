@@ -1,0 +1,46 @@
+.lc{
+    color: #444;
+}
+
+.form-control{
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+
+/* .seperator{
+    width: 100%;
+    border-bottom: 1px solid #444;
+    text-align: center;
+    margin: 0 10px 0 10px;
+} */
+
+.seperator{
+    border-bottom: 1px solid #aaa;
+    text-align: center;
+    line-height: 0.1em;
+}
+
+.seperator span{
+    background-color: white;
+    padding: 5px;
+    color: #aaa;
+}
+
+.auth{
+   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background-color: #fff;
+  border: none;
+  outline: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 768px) {
+    .auth{
+        width: 300px;
+    }
+}

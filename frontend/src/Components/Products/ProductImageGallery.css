@@ -1,0 +1,18 @@
+/* #p_1, #p_2,#p_3,#p_4{
+    transition: transform 0.3s ease;
+} */
+
+/* #p_1:hover, #p_2:hover,#p_3:hover,#p_4:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+} */
+
+.hover-img{
+    transition: transform 0.3s ease;
+}
+
+.hover-img:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+

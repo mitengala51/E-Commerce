@@ -1,0 +1,30 @@
+
+h4 {
+    font-family: "Playwrite RO", cursive;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    text-decoration: none;
+  }
+
+.nav-links{
+  color: black;
+}
+
+.Link{
+  text-decoration: none;
+}
+
+.menuDiv{
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .menuDiv{
+    display: inline-block;
+  }
+
+  .hide{
+    display: none;
+  }
+}
