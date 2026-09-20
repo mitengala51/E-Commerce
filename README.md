@@ -1,33 +1,12 @@
 # Divya Collection - E-Commerce Website
 
-A modern, full-stack e-commerce platform specializing in handbags and ladies' footwear. Built with React, Node.js, Express, and MongoDB.
+A modern, full-stack e-commerce platform specializing in handbags and ladies' footwear. Built with React, Node.js, Express, and MongoDB — now with an integrated Admin Dashboard.
 
-## � Live Demo
+## 🔗 Live Demo
 
 🔗 **Live URL**: [Divya Collection](https://divya-collection-e-commerce-website-silk.vercel.app/)
 
-## 📸 Screenshots
-
-### Homepage
-![Homepage](https://github.com/mitengala51/Divya-Collection-E-Commerce-Website/blob/main/frontend/public/Website%20Screenshots/homepage.jpeg)
-
-### Product Search
-![Product Search](https://github.com/mitengala51/Divya-Collection-E-Commerce-Website/blob/main/frontend/public/Website%20Screenshots/product%20search.jpeg)
-
-### Product Details
-![Product Details](https://github.com/mitengala51/Divya-Collection-E-Commerce-Website/blob/main/frontend/public/Website%20Screenshots/product%20detail.jpeg)
-
-### About Us
-![About Us](https://github.com/mitengala51/Divya-Collection-E-Commerce-Website/blob/main/frontend/public/Website%20Screenshots/about%20us.jpeg)
-
-### Contact Us
-![Contact Us](https://github.com/mitengala51/Divya-Collection-E-Commerce-Website/blob/main/frontend/public/Website%20Screenshots/contact%20us.jpeg)
-
-### Shopping Cart
-![Shopping Cart](https://github.com/mitengala51/Divya-Collection-E-Commerce-Website/blob/main/frontend/public/Website%20Screenshots/shopping%20cart.jpeg)
-
-
-## �🌟 Features
+## 🌟 Features
 
 - **User Authentication**: Secure login/signup with JWT tokens and Google OAuth
 - **Product Catalog**: Browse handbags and ladies' footwear with detailed descriptions
@@ -38,6 +17,7 @@ A modern, full-stack e-commerce platform specializing in handbags and ladies' fo
 - **Responsive Design**: Mobile-first design using Material-UI
 - **Image Gallery**: Product image galleries and carousels
 - **Profile Management**: User profile completion and management
+- **Admin Dashboard**: Role-protected admin panel for managing products, categories, orders and customers, with real sales/order analytics (see below)
 
 ## 🛠️ Tech Stack
 
@@ -45,8 +25,10 @@ A modern, full-stack e-commerce platform specializing in handbags and ladies' fo
 - **React 19** - Modern React with hooks
 - **Vite** - Fast build tool and dev server
 - **Material-UI (MUI)** - Component library for consistent UI
+- **Bootstrap 5** - Utility classes for layout (loaded via CDN)
 - **React Router** - Client-side routing
 - **Axios** - HTTP client for API calls
+- **React Hot Toast** - Toast notifications
 - **React Chatbotify** - AI chatbot integration
 
 ### Backend
@@ -54,10 +36,11 @@ A modern, full-stack e-commerce platform specializing in handbags and ladies' fo
 - **Express.js** - Web framework
 - **MongoDB** - NoSQL database
 - **Mongoose** - MongoDB object modeling
-- **JWT** - JSON Web Tokens for authentication
+- **JWT** - JSON Web Tokens for authentication and role-based admin authorization
 - **bcrypt** - Password hashing
 - **Razorpay** - Payment gateway integration
-- **Google Generative AI** - AI chatbot functionality
+- **Google Generative AI (Gemini)** - AI chatbot functionality
+- **Nodemailer** - Contact form email delivery
 
 ## 🚀 Getting Started
 
@@ -85,12 +68,13 @@ A modern, full-stack e-commerce platform specializing in handbags and ladies' fo
    MONGOOSE_URL=your_mongodb_connection_string
    JWT_SECRET_KEY=your_jwt_secret
    FRONTEND_URL=http://localhost:5173
-   RAZORPAY_KEY_ID=your_razorpay_key_id
-   RAZORPAY_KEY_SECRET=your_razorpay_key_secret
-   GOOGLE_AI_API_KEY=your_google_ai_api_key
-   EMAIL_USER=your_email@gmail.com
-   EMAIL_PASS=your_email_app_password
+   RAZOR_PAY_KEY_ID=your_razorpay_key_id
+   RAZOR_PAY_KEY_SECRET=your_razorpay_key_secret
+   GEMINI_API_KEY=your_google_gemini_api_key
+   APP_PASSWORD_GMAIL=your_gmail_app_password
    ```
+
+   No additional environment variables are required for the Admin Dashboard — it reuses `MONGOOSE_URL` and `JWT_SECRET_KEY` above.
 
 3. **Frontend Setup**
    ```bash
@@ -100,7 +84,7 @@ A modern, full-stack e-commerce platform specializing in handbags and ladies' fo
 
    Create a `.env` file in the frontend directory:
    ```env
-   VITE_REACT_APP_API_URL=http://localhost:5000
+   VITE_REACT_APP_API_URL=http://localhost:3000
    ```
 
 4. **Start the Development Servers**
@@ -112,6 +96,7 @@ A modern, full-stack e-commerce platform specializing in handbags and ladies' fo
    # or for development with auto-reload:
    npx nodemon index.js
    ```
+   The backend listens on **port 3000**.
 
    **Frontend** (Terminal 2):
    ```bash
@@ -123,12 +108,34 @@ A modern, full-stack e-commerce platform specializing in handbags and ladies' fo
 
    Open [http://localhost:5173](http://localhost:5173) in your browser.
 
+## 🛡️ Admin Dashboard Setup
+
+The admin dashboard lives at `/admin` and is protected on both the frontend and the backend — the backend re-checks the logged-in user's role against the database on every admin request, rather than trusting anything sent from the browser.
+
+1. **Sign up normally** on the website with the email you want to use as admin.
+2. **Promote that account to admin** by running:
+   ```bash
+   cd backend
+   node make-admin.js your-email@example.com
+   ```
+3. **Log out and log back in** with that account (the role is embedded in the JWT at login time, so a token issued before this step won't carry it).
+4. Visit `http://localhost:5173/admin`. Logging in with an admin account from the normal login modal also redirects there automatically.
+
+### What the dashboard includes
+- **Dashboard Home**: total products, orders, pending/completed orders, total customers, revenue, a 6-month sales overview, order status breakdown, recent orders, recently added products, and low-stock products
+- **Products**: search, category filter, add/edit/delete with the existing product schema (title, price, category, brand, size, images, stock)
+- **Categories**: derived from existing product data (there's no separate category collection), with rename support
+- **Orders**: list with search/status filter, order detail view, and order status updates
+- **Customers**: list with order count and total spend per customer
+- **Profile**: the signed-in admin's own account details
+
 ## 📁 Project Structure
 
 ```
 divya-collection-ecommerce/
 ├── backend/
-│   ├── index.js              # Main server file
+│   ├── index.js              # Main server file (storefront + admin API)
+│   ├── make-admin.js         # One-time script to grant a user the admin role
 │   ├── package.json          # Backend dependencies
 │   └── uploads/              # File uploads directory
 ├── frontend/
@@ -140,6 +147,7 @@ divya-collection-ecommerce/
 │   │   └── Social Media Icons/
 │   ├── src/
 │   │   ├── Components/       # Reusable components
+│   │   │   ├── Admin/        # Admin layout, sidebar, header, route guard
 │   │   │   ├── Auth/         # Authentication components
 │   │   │   ├── Cart/         # Shopping cart components
 │   │   │   ├── Category/     # Category display
@@ -147,8 +155,8 @@ divya-collection-ecommerce/
 │   │   │   ├── Layout/       # Layout components
 │   │   │   ├── Page-Specific/# Page-specific components
 │   │   │   └── Products/     # Product-related components
-│   │   ├── Pages/            # Page components
-│   │   ├── App.jsx           # Main app component
+│   │   ├── Pages/            # Page components (including Admin*.jsx)
+│   │   ├── App.jsx           # Main app component and routes
 │   │   ├── main.jsx          # App entry point
 │   │   └── App.css           # Global styles
 │   ├── package.json          # Frontend dependencies
@@ -160,8 +168,8 @@ divya-collection-ecommerce/
 
 ### Authentication
 - `POST /api/sign-up` - User registration
-- `POST /api/login` - User login
-- `POST /api/google-login` - Google OAuth login
+- `POST /api/login` - User login (response includes `role` for admin redirect)
+- `POST /api/google-login` - Google OAuth login (response includes `role`)
 - `POST /api/google-signup` - Google OAuth registration
 - `POST /api/Logout` - User logout
 
@@ -192,6 +200,19 @@ divya-collection-ecommerce/
 ### AI Chatbot
 - `POST /api/chatbot` - Send message to AI assistant
 
+### Admin (requires an authenticated admin account)
+- `GET /api/admin/me` - Logged-in admin's own details
+- `GET /api/admin/stats` - Dashboard statistics, sales overview, order status distribution, recent activity, low stock
+- `POST /api/admin/product` - Create a product
+- `PUT /api/admin/product/:id` - Update a product
+- `DELETE /api/admin/product/:id` - Delete a product (also removes it from any open carts)
+- `GET /api/admin/categories` - Category list with product counts (aggregated from products)
+- `PUT /api/admin/category` - Rename a category across all its products
+- `GET /api/admin/orders` - All orders, newest first
+- `GET /api/admin/orders/:id` - Single order with customer and line-item detail
+- `PUT /api/admin/orders/:id/status` - Update an order's status
+- `GET /api/admin/customers` - Customers with order count and total spend
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -212,4 +233,4 @@ For questions or support, please contact us at:
 
 ---
 
-Made with ❤️ for fashion enthusiasts# E-Commerce
+Made with ❤️ for fashion enthusiasts
