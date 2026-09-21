@@ -4,7 +4,7 @@ A modern, full-stack e-commerce platform specializing in handbags and ladies' fo
 
 ## 🔗 Live Demo
 
-🔗 **Live URL**: [Divya Collection](https://divya-collection-e-commerce-website-silk.vercel.app/)
+🔗 **Live URL**: [Divya Collection](https://frontend-bice-five-94.vercel.app)
 
 ## 🌟 Features
 
