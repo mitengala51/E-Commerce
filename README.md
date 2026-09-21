@@ -92,9 +92,7 @@ A modern, full-stack e-commerce platform specializing in handbags and ladies' fo
    **Backend** (Terminal 1):
    ```bash
    cd backend
-   npm start
-   # or for development with auto-reload:
-   npx nodemon index.js
+   node index.js
    ```
    The backend listens on **port 3000**.
 
