@@ -84,6 +84,8 @@ A modern, full-stack e-commerce platform specializing in handbags and ladies' fo
 
    Create a `.env` file in the frontend directory:
    ```env
+   VITE_GOOGLE_CLIENT_ID=your_google_oauth_client_id
+   VITE_RAZOR_PAY_KEY_ID=your_razorpay_key_id
    VITE_REACT_APP_API_URL=http://localhost:3000
    ```
 
@@ -118,6 +120,16 @@ The admin dashboard lives at `/admin` and is protected on both the frontend and 
    ```
 3. **Log out and log back in** with that account (the role is embedded in the JWT at login time, so a token issued before this step won't carry it).
 4. Visit `http://localhost:5173/admin`. Logging in with an admin account from the normal login modal also redirects there automatically.
+
+
+### Demo Admin Account
+ 
+For reviewers who just want to log in without running `make-admin.js` themselves:
+ 
+```
+Email:    abc123@gmail.com
+Password: Asdfghjkl123@
+```
 
 ### What the dashboard includes
 - **Dashboard Home**: total products, orders, pending/completed orders, total customers, revenue, a 6-month sales overview, order status breakdown, recent orders, recently added products, and low-stock products
