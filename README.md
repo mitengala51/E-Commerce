@@ -78,7 +78,7 @@ A modern, full-stack e-commerce platform specializing in handbags and ladies' fo
 
 3. **Frontend Setup**
    ```bash
-   cd ../frontend
+   cd frontend
    npm install
    ```
 
